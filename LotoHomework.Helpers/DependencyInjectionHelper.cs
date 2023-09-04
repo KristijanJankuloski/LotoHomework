@@ -18,11 +18,15 @@ namespace LotoHomework.Helpers
         public static void InjectRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ISessionRepository, SessionRepository>();
+            services.AddScoped<ICombinationRepository, CombinationRepository>();
         }
 
         public static void InjectServices(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICombinationService, CombinationService>();
+            services.AddScoped<ISessionService, SessionService>();
         }
     }
 }

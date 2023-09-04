@@ -18,5 +18,8 @@ namespace LotoHomework.Domain.Models
 
         [ForeignKey("CombinationId")]
         public Combination? WinningCombination { get; set; }
+
+        [InverseProperty("Session")]
+        public List<NumberMatch> NumberMatches { get; set; } = new();
     }
 }

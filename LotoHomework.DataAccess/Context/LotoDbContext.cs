@@ -10,5 +10,21 @@ namespace LotoHomework.DataAccess.Context
         public DbSet<Session> Sessions { get; set; }
 
         public LotoDbContext(DbContextOptions options) : base(options) {}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Session>()
+                .HasMany(x => x.NumberMatches)
+                .WithOne(x => x.Session)
+                .HasForeignKey(x => x.SessionId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Combination>()
+                .HasMany(x => x.NumberMatches)
+                .WithOne(x => x.Combination)
+                .HasForeignKey(x => x.CombinationId);
+        }
     }
 }

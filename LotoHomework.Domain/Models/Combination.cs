@@ -24,6 +24,9 @@ namespace LotoHomework.Domain.Models
         [MaxLength(24)]
         public string Numbers { get; set; } = string.Empty;
 
+        [InverseProperty("Combination")]
+        public List<NumberMatch> NumberMatches { get; set; } = new();
+
 
         public void SetNumbers(List<int> numbers)
         {
