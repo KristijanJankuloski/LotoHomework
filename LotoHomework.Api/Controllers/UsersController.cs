@@ -1,4 +1,5 @@
-﻿using LotoHomework.DTOs.UserDTOs;
+﻿using LotoHomework.Domain.Statics;
+using LotoHomework.DTOs.UserDTOs;
 using LotoHomework.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,26 @@ namespace LotoHomework.Api.Controllers
         {
             try
             {
-                await _userService.RegisterUser(dto);
+                await _userService.RegisterUser(dto, Role.User);
+                return StatusCode(StatusCodes.Status201Created, "User created");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost("register-admin")]
+        [Authorize(Roles = Role.Admin)]
+        public async Task<IActionResult> RegisterAdmin(UserRegisterDto dto)
+        {
+            try
+            {
+                await _userService.RegisterUser(dto, Role.Admin);
                 return StatusCode(StatusCodes.Status201Created, "User created");
             }
             catch (ArgumentException ex)

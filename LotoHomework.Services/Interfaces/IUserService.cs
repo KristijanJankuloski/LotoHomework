@@ -4,7 +4,7 @@ namespace LotoHomework.Services.Interfaces
 {
     public interface IUserService
     {
-        Task RegisterUser(UserRegisterDto dto);
+        Task RegisterUser(UserRegisterDto dto, string role);
         Task<string> LoginUser(UserLoginDto dto);
     }
 }

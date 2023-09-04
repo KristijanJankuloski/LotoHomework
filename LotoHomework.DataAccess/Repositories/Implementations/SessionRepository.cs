@@ -34,9 +34,23 @@ namespace LotoHomework.DataAccess.Repositories.Implementations
             return await _context.Sessions.FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<Session> GetLastEndedAsync()
+        {
+            return await _context.Sessions
+                .Include(x => x.WinningCombination)
+                .Include(x => x.NumberMatches)
+                .ThenInclude(x => x.Combination)
+                .ThenInclude(x => x.User)
+                .OrderByDescending(x => x.StartTime)
+                .FirstOrDefaultAsync(x => x.IsEnded);
+        }
+
         public async Task<Session> GetLatestActiveAsync()
         {
-            return await _context.Sessions.Include(x => x.EntryCombinations).LastOrDefaultAsync(x => !x.IsEnded);
+            return await _context.Sessions
+                .Include(x => x.EntryCombinations)
+                .OrderByDescending(x => x.StartTime)
+                .FirstOrDefaultAsync(x => !x.IsEnded);
         }
 
         public async Task InsertAsync(Session entity)

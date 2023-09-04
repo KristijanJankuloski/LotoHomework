@@ -20,7 +20,7 @@ namespace LotoHomework.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CombinationCreateDto dto)
+        public async Task<ActionResult<BidCreateResponseDto>> Create([FromBody] CombinationCreateDto dto)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace LotoHomework.Api.Controllers
                     return BadRequest("Not session in progress");
                 }
                 await _combinationService.Create(dto, userId, session.Id);
-                return StatusCode(StatusCodes.Status201Created, "Bid has been added");
+                return StatusCode(StatusCodes.Status201Created, new BidCreateResponseDto { Message = "Bid has been created, wait for a draw and go to the link", Link = "sessions/winners" });
             }
             catch (Exception ex)
             {

@@ -34,13 +34,13 @@ namespace LotoHomework.Services.Implementations
             return GenerateToken(user);
         }
 
-        public async Task RegisterUser(UserRegisterDto dto)
+        public async Task RegisterUser(UserRegisterDto dto, string role)
         {
             await ValidateUser(dto);
 
             string hash = HashPassowrd(dto.Password);
             User user = dto.ToUser(hash);
-            user.Role = Role.User;
+            user.Role = role;
 
             await _userRepository.InsertAsync(user);
         }
